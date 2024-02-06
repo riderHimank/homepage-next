@@ -2,7 +2,7 @@
 
 import React, { Suspense, useRef, useState, useEffect } from "react";
 import { useGLTF, useVideoTexture, useTexture } from "@react-three/drei";
-import url  from "../../../public/video.mp4";
+import url from "../../../public/video.mp4";
 import alcher from "../../../public/alcher.png";
 import "../homepage.css";
 import * as THREE from "three";
@@ -52,29 +52,32 @@ export default function RoomScene(props) {
     vid.crossOrigin = "Anonymous";
     vid.loop = true;
     vid.muted = true;
-    vid.type="video/mp4"/
-    vid.play();
+    vid.type = "video/mp4" / vid.play();
     console.log(vid);
     return vid;
   });
 
+  const vidTexture = useVideoTexture(url);
+  console.log(vidTexture);
+
   const videoMesh = () => {
     return (
-      <mesh rotation={[0, 0, 0]} position={[0, 0, 1.1]} >
+      <mesh rotation={[0, 0, 0]} position={[-4.3, 0, 1.1]}>
         <planeGeometry args={[3.2, 1.9]} />
-        <meshStandardMaterial emissive={"white"} side={THREE.DoubleSide}>
-          <videoTexture attach="map" args={[video]} />
-          <videoTexture attach="emissiveMap" args={[video]} />
+        <meshStandardMaterial
+          emissive={"white"}
+          side={THREE.DoubleSide}
+          color={"#FFF"}
+        >
+          {/* <videoTexture attach="map" args={[video]} />
+          <videoTexture attach="emissiveMap" args={[video]} /> */}
         </meshStandardMaterial>
-        
       </mesh>
     );
   };
 
-
   return (
     <group {...props} dispose={null}>
-      
       <mesh
         name="WallsF"
         geometry={nodes.WallsF.geometry}
@@ -310,13 +313,26 @@ export default function RoomScene(props) {
         material={textureMaterial}
         position={[-3.38, 1.59, -1.468]}
       />
-      <mesh
-        name="TabScreen"
-        geometry={nodes.TabScreen.geometry}
-        material={textureMaterial}
-        position={[-5.328, 1.061, -2.199]}
-        rotation={[-Math.PI / 2, 0.751, Math.PI / 2]}
-      />
+      <group>
+        <mesh
+          rotation={[-Math.PI / 2, 0.751, Math.PI / 2]}
+          position={[-5.328, 1.065, -2.199]}
+          scale={[0.3, 0.3, 0.3]}
+        >
+          <planeGeometry args={[3.2, 1.9]} />
+          <meshStandardMaterial emissive={"white"} side={THREE.DoubleSide}>
+            <videoTexture attach="map" args={[video]} />
+            <videoTexture attach="emissiveMap" args={[video]} />
+          </meshStandardMaterial>
+        </mesh>
+        <mesh
+          name="TabScreen"
+          geometry={nodes.TabScreen.geometry}
+          material={vidTexture}
+          position={[-5.328, 1.061, -2.199]}
+          rotation={[-Math.PI / 2, 0.751, Math.PI / 2]}
+        />
+      </group>
       <mesh
         name="LappyScreen"
         geometry={nodes.LappyScreen.geometry}
