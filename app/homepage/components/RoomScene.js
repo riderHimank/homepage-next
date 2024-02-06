@@ -2,7 +2,7 @@
 
 import React, { Suspense, useRef, useState, useEffect } from "react";
 import { useGLTF, useVideoTexture, useTexture } from "@react-three/drei";
-import { url } from "../../../public/video.mp4";
+import url  from "../../../public/video.mp4";
 import alcher from "../../../public/alcher.png";
 import "../homepage.css";
 import * as THREE from "three";
@@ -52,25 +52,29 @@ export default function RoomScene(props) {
     vid.crossOrigin = "Anonymous";
     vid.loop = true;
     vid.muted = true;
+    vid.type="video/mp4"/
     vid.play();
+    console.log(vid);
     return vid;
   });
 
   const videoMesh = () => {
     return (
-      <mesh rotation={[0, 0, 0]} position={[0, 0, 1.1]}>
+      <mesh rotation={[0, 0, 0]} position={[0, 0, 1.1]} >
         <planeGeometry args={[3.2, 1.9]} />
         <meshStandardMaterial emissive={"white"} side={THREE.DoubleSide}>
           <videoTexture attach="map" args={[video]} />
           <videoTexture attach="emissiveMap" args={[video]} />
         </meshStandardMaterial>
+        
       </mesh>
     );
   };
 
+
   return (
     <group {...props} dispose={null}>
-      <videoMesh />
+      
       <mesh
         name="WallsF"
         geometry={nodes.WallsF.geometry}
