@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html } from "@react-three/drei";
-import RoomScene from "./components/RoomScene";
+import RoomScene from "./components/RoomScene_2";
 import { motion } from "framer-motion";
 import TWEEN from "@tweenjs/tween.js";
 

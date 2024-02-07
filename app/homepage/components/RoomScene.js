@@ -3,12 +3,10 @@
 import React, { Suspense, useRef, useState, useEffect } from "react";
 import { useGLTF, useVideoTexture, useTexture } from "@react-three/drei";
 import url from "../../../public/video.mp4";
-import alcher from "../../../public/alcher.png";
 import "../homepage.css";
 import * as THREE from "three";
 
 export default function RoomScene(props) {
-  const videoRef = useRef();
   const texture = useTexture("BakedTexture.png");
   texture.flipY = false;
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -56,25 +54,8 @@ export default function RoomScene(props) {
     console.log(vid);
     return vid;
   });
-
-  const vidTexture = useVideoTexture(url);
-  console.log(vidTexture);
-
-  const videoMesh = () => {
-    return (
-      <mesh rotation={[0, 0, 0]} position={[-4.3, 0, 1.1]}>
-        <planeGeometry args={[3.2, 1.9]} />
-        <meshStandardMaterial
-          emissive={"white"}
-          side={THREE.DoubleSide}
-          color={"#FFF"}
-        >
-          {/* <videoTexture attach="map" args={[video]} />
-          <videoTexture attach="emissiveMap" args={[video]} /> */}
-        </meshStandardMaterial>
-      </mesh>
-    );
-  };
+  const laptopScreen = useTexture("alcher.png");
+  const mobileScreen = useTexture("qr.png");
 
   return (
     <group {...props} dispose={null}>
@@ -328,25 +309,49 @@ export default function RoomScene(props) {
         <mesh
           name="TabScreen"
           geometry={nodes.TabScreen.geometry}
-          material={vidTexture}
+          material={textureMaterial}
           position={[-5.328, 1.061, -2.199]}
           rotation={[-Math.PI / 2, 0.751, Math.PI / 2]}
         />
       </group>
-      <mesh
-        name="LappyScreen"
-        geometry={nodes.LappyScreen.geometry}
-        material={textureMaterial}
-        position={[-4.31, 1.194, -3.564]}
-        rotation={[0, -1.571, 0]}
-      />
-      <mesh
-        name="PhoneScreen"
-        geometry={nodes.PhoneScreen.geometry}
-        material={textureMaterial}
-        position={[-4.755, 1.008, -3.208]}
-        rotation={[0, -0.903, -1.295]}
-      />
+      <group>
+        <mesh
+          name="LappyScreen"
+          geometry={nodes.LappyScreen.geometry}
+          material={textureMaterial}
+          position={[-4.31, 1.194, -3.564]}
+          rotation={[0, -1.571, 0]}
+        />
+        <mesh
+          position={[-4.31, 1.194, -3.557]}
+          rotation={[-0.05, 0.02, 0]}
+          scale={[0.178, 0.178, 0.178]}
+        >
+          <planeGeometry args={[3.2, 1.9]} />
+          <meshStandardMaterial side={THREE.DoubleSide} map={laptopScreen} />
+        </mesh>
+      </group>
+      <group>
+        <mesh
+          name="PhoneScreen"
+          geometry={nodes.PhoneScreen.geometry}
+          material={textureMaterial}
+          position={[-4.755, 1.008, -3.208]}
+          rotation={[0, -0.903, -1.295]}
+        />
+        <mesh
+          position={[-4.755, 1.008, -3.208]}
+          rotation={[0, -0.903, -1.295]}
+          scale={[0.03, 0.12, 0]}
+        >
+          <planeGeometry args={[3.2, 1.9]} />
+          <meshStandardMaterial
+            side={THREE.DoubleSide}
+            map={mobileScreen}
+            color={"white"}
+          />
+        </mesh>
+      </group>
       <mesh
         name="ClockScreen"
         geometry={nodes.ClockScreen.geometry}
