@@ -11,7 +11,7 @@ const marks = [
   {
     key: "A",
     title: "EVENTS",
-    description:"Laptop Screen",
+    description: "Laptop Screen",
     camPos: {
       x: -4.3,
       y: 1.2,
@@ -58,31 +58,31 @@ const marks = [
       z: -4.5,
     },
   },
-  {
-    key: "C",
-    title: "Tablet",
-    description: "Theme Video Playing",
-    camPos: {
-      x: -4,
-      y: 2,
-      z: -2.3,
-    },
-    lookAt: {
-      x: -7,
-      y: -0.5,
-      z: -2.3,
-    },
-    pos: {
-      x: -5.5,
-      y: 1.45,
-      z: -2.1,
-    },
-    textAt: {
-      x: -7.5,
-      y: 1.3,
-      z: -1.15,
-    },
-  },
+  // {
+  //   key: "C",
+  //   title: "Tablet",
+  //   description: "Theme Video Playing",
+  //   camPos: {
+  //     x: -4,
+  //     y: 2,
+  //     z: -2.3,
+  //   },
+  //   lookAt: {
+  //     x: -7,
+  //     y: -0.5,
+  //     z: -2.3,
+  //   },
+  //   pos: {
+  //     x: -5.5,
+  //     y: 1.45,
+  //     z: -2.1,
+  //   },
+  //   textAt: {
+  //     x: -7.5,
+  //     y: 1.3,
+  //     z: -1.15,
+  //   },
+  // },
   {
     key: "D",
     title: "Calendar",
@@ -111,7 +111,7 @@ const marks = [
   {
     key: "E",
     title: "Kartavya",
-    description:"Kartavya Trophy",
+    description: "Kartavya Trophy",
     camPos: {
       x: -3.2,
       y: 2,
@@ -198,9 +198,9 @@ const marks = [
       z: -5,
     },
     pos: {
-      x: -3.62,
+      x: -3.7,
       y: 1.66,
-      z: -3.4,
+      z: -3.7,
     },
     textAt: {
       x: -3.62,
@@ -223,9 +223,9 @@ const marks = [
       z: -5.4,
     },
     pos: {
-      x: -3.8,
-      y: 1.2,
-      z: -3.4,
+      x: -4.05,
+      y: 1.05,
+      z: -3,
     },
     textAt: {
       x: -3.7,
@@ -301,9 +301,11 @@ function Annotations({ controls }) {
       )
       .easing(TWEEN.Easing.Cubic.Out)
       .start();
-    
+
     setBackTrack(!backtrack);
-    controls.current.enabled = backtrack;
+    setTimeout(() => {
+      controls.current.enabled = backtrack;
+    }, 10);
   };
 
   return (
@@ -322,7 +324,8 @@ function Annotations({ controls }) {
                   transform="translate(-13 -13)"
                   style={{ cursor: "pointer" }}
                   onPointerUp={() => {
-                    console.log(controls.current);
+                    // console.log(controls.current);
+                    // controls.current.enableDamping = false;
                     setSelected(a.key);
                     const isSameAnnotation = a.key === selected;
                     setBackTrack(isSameAnnotation ? false : true);
@@ -362,9 +365,8 @@ function Annotations({ controls }) {
                     setSelected(backtrack ? -1 : a.key);
                     setTimeout(() => {
                       controls.current.enabled = false;
-                    }, 3000);
-                    console.log(controls.current);
-                    
+                    }, 3100);
+                    // console.log(controls.current);
                   }}
                 >
                   {
@@ -492,15 +494,17 @@ export default function App() {
       <OrbitControls
         ref={ref}
         target={[-3.5, 1.4, -1.8]}
-        enableZoom={true}
+        enableZoom={false}
         enableDamping={true}
-        dampingFactor={0.03}
+        minPolarAngle={Math.PI / 3}
+        maxPolarAngle={Math.PI / 2}
+        dampingFactor={0.02}
         enabled={true}
       />
       <ambientLight intensity={1.5} />
       <Annotations controls={ref} />
       <RoomScene></RoomScene>
-      <axesHelper args={[20, 20, 20]} />
+      {/* <axesHelper args={[20, 20, 20]} /> */}
       <Tween />
     </Canvas>
   );
